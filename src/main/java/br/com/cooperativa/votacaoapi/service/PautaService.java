@@ -14,6 +14,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PautaService {
+
     private final PautaRepository pautaRepository;
     private final PautaMapper pautaMapper;
 

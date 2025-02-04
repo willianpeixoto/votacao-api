@@ -1,6 +1,10 @@
 package br.com.cooperativa.votacaoapi.controller.v1;
 
-import br.com.cooperativa.votacaoapi.dto.*;
+import br.com.cooperativa.votacaoapi.dto.PautaResponseDto;
+import br.com.cooperativa.votacaoapi.dto.PautaRequestDto;
+import br.com.cooperativa.votacaoapi.dto.SessaoVotacaoRequestDto;
+import br.com.cooperativa.votacaoapi.dto.VotoResponseDto;
+import br.com.cooperativa.votacaoapi.dto.VotoRequestDto;
 import br.com.cooperativa.votacaoapi.service.PautaService;
 import br.com.cooperativa.votacaoapi.service.VotoService;
 import lombok.RequiredArgsConstructor;
