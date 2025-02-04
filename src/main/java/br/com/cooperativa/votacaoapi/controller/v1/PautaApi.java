@@ -5,6 +5,7 @@ import br.com.cooperativa.votacaoapi.dto.PautaRequestDto;
 import br.com.cooperativa.votacaoapi.dto.SessaoVotacaoRequestDto;
 import br.com.cooperativa.votacaoapi.dto.VotoResponseDto;
 import br.com.cooperativa.votacaoapi.dto.VotoRequestDto;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,15 +23,15 @@ public interface PautaApi {
 
     @Operation(summary = "Cadastrar uma nova pauta")
     @PostMapping
-    PautaResponseDto cadastrarPauta(@RequestBody PautaRequestDto pauta);
+    ResponseEntity<PautaResponseDto> cadastrarPauta(@RequestBody PautaRequestDto pauta);
 
     @Operation(summary = "Listar todas as pautas")
     @GetMapping
-    List<PautaResponseDto> listarPautas();
+    ResponseEntity<List<PautaResponseDto>> listarPautas();
 
     @Operation(summary = "Abrir sessão de votação em uma pauta através do ID")
     @PutMapping("/{id}/abrir-sessao-votacao")
-    PautaResponseDto abrirSessaoVotacao(@PathVariable("id") Long id, @RequestBody SessaoVotacaoRequestDto sessaoVotacaoRequestDto);
+    ResponseEntity<PautaResponseDto> abrirSessaoVotacao(@PathVariable("id") Long id, @RequestBody SessaoVotacaoRequestDto sessaoVotacaoRequestDto);
 
     @Operation(summary = "Votar em uma pauta através do ID")
     @PostMapping("/{id}/votar")
@@ -38,9 +39,9 @@ public interface PautaApi {
 
     @Operation(summary = "Buscar pauta através do ID")
     @GetMapping("/{id}")
-    PautaResponseDto buscarPauta(@PathVariable("id") Long id);
+    ResponseEntity<PautaResponseDto> buscarPautaPorIdPauta(@PathVariable("id") Long id);
 
     @Operation(summary = "Contabilizar votação e atualizar resultado na pauta através do ID")
     @PutMapping("/{id}/consolidar-votacao")
-    PautaResponseDto consolidarVotacao(@PathVariable("id") Long id);
+    PautaResponseDto consolidarVotacaoIdPauta(@PathVariable("id") Long id);
 }

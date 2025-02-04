@@ -1,5 +1,6 @@
 package br.com.cooperativa.votacaoapi.enums;
 
+import br.com.cooperativa.votacaoapi.exception.ValorVotoInvalidoException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -25,6 +26,6 @@ public enum VotoPautaEnum {
                 return resultado;
             }
         }
-        throw new IllegalArgumentException("Valor inválido para ResultadoPauta: " + value);
+        throw new ValorVotoInvalidoException("Valor do voto [" + value + "] está incorreto. Valores permitidos: 'Sim' ou 'Não'");
     }
 }

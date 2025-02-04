@@ -1,5 +1,7 @@
 package br.com.cooperativa.votacaoapi.service;
 
+import br.com.cooperativa.votacaoapi.exception.AssociadoJaVotouException;
+import br.com.cooperativa.votacaoapi.repository.VotoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -7,8 +9,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AssociadoService {
 
-    public void validaAssociado(Long idAssociado) {
-        //TODO VERIFICAR SE ASSOCIADO JÁ VOTOU throw new IllegalArgumentException("Associado já votou nesta pauta.");
+    private final VotoRepository votoRepository;
+
+    public void validaAssociado(Long idPauta, Long idAssociado) {
+        var voto = votoRepository.findByPautaIdAndAssociadoId(idPauta, idAssociado);
+        if(voto.isPresent()) {
+            throw new AssociadoJaVotouException(idPauta, idAssociado);
+        }
         //TODO VERIFICAR SE O ASSOCIADO ESTÁ APTO A VOTAR
     }
 }

@@ -3,6 +3,8 @@ package br.com.cooperativa.votacaoapi.service;
 import br.com.cooperativa.votacaoapi.dto.PautaRequestDto;
 import br.com.cooperativa.votacaoapi.dto.PautaResponseDto;
 import br.com.cooperativa.votacaoapi.dto.SessaoVotacaoRequestDto;
+import br.com.cooperativa.votacaoapi.exception.PautaComSessaoAbertaException;
+import br.com.cooperativa.votacaoapi.exception.PautaNaoEncontradaException;
 import br.com.cooperativa.votacaoapi.mapper.PautaMapper;
 import br.com.cooperativa.votacaoapi.repository.PautaRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +17,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PautaService {
 
+    private static final int DURACAO_SESSAO_DEFAULT = 1;
+    private static final String MSG_PAUTA_CADASTRADA = "Pauta cadastrada com sucesso!";
+    private static final String MSG_SESSAO_ABERTA = "Sessão aberta com sucesso!";
+
     private final PautaRepository pautaRepository;
     private final PautaMapper pautaMapper;
 
     public PautaResponseDto cadastrarPauta(PautaRequestDto pautaRequestDto) {
         var pauta = pautaMapper.pautaRequestDtoToPauta(pautaRequestDto);
         var pautaCriada = pautaRepository.save(pauta);
-        return pautaMapper.pautaToPautaResponseDto(pautaCriada, "Pauta cadastrada com sucesso!");
+        return pautaMapper.pautaToPautaResponseDto(pautaCriada, MSG_PAUTA_CADASTRADA);
     }
 
     public List<PautaResponseDto> listarPautas() {
@@ -30,28 +36,25 @@ public class PautaService {
     }
 
     public PautaResponseDto abrirSessaoVotacao(Long idPauta, SessaoVotacaoRequestDto sessaoVotacaoRequestDto) {
-        //TODO VERIFICAR SE PAUTA EXISTE
-        var descricaoPauta = validarPauta(idPauta);
-        if(sessaoVotacaoRequestDto.getMinutosSessao() == null || sessaoVotacaoRequestDto.getMinutosSessao() < 1) {
-            sessaoVotacaoRequestDto.setMinutosSessao(1);
+        var pautaDto = buscarPautaPorIdPauta(idPauta);
+        if(pautaDto.getInicioSessao() != null) {
+            throw new PautaComSessaoAbertaException(idPauta);
+        }
+        if(sessaoVotacaoRequestDto.getMinutosSessao() == null || sessaoVotacaoRequestDto.getMinutosSessao() < DURACAO_SESSAO_DEFAULT) {
+            sessaoVotacaoRequestDto.setMinutosSessao(DURACAO_SESSAO_DEFAULT);
         }
         var inicioSessao = LocalDateTime.now();
         var fimSessao = inicioSessao.plusMinutes(sessaoVotacaoRequestDto.getMinutosSessao());
-        var pauta = pautaMapper.toPauta(idPauta, descricaoPauta, inicioSessao, fimSessao);
+        var pauta = pautaMapper.toPauta(idPauta, pautaDto.getDescricaoPauta(), inicioSessao, fimSessao);
         var pautaAtualizada = pautaRepository.save(pauta);
-        return pautaMapper.pautaToPautaResponseDto(pautaAtualizada, "Sessão aberta com sucesso!");
+        return pautaMapper.pautaToPautaResponseDto(pautaAtualizada, MSG_SESSAO_ABERTA);
     }
 
-    public String validarPauta(Long idPauta) {
+    public PautaResponseDto buscarPautaPorIdPauta(Long idPauta) {
         var pauta = pautaRepository.findById(idPauta);
-        if(pauta.isEmpty()) {
-            //TODO throw new IllegalArgumentException("Pauta não encontrada.");
+        if (pauta.isEmpty()) {
+            throw new PautaNaoEncontradaException(idPauta);
         }
-        return pauta.get().getDescricaoPauta();
-    }
-
-    public PautaResponseDto buscarPauta(Long idPauta) {
-        var pauta = pautaRepository.findById(idPauta);
         return pautaMapper.pautaToPautaResponseDto(pauta.get());
     }
 
