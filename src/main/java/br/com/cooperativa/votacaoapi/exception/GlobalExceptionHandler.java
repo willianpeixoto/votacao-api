@@ -77,6 +77,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroResponse);
     }
 
+    @ExceptionHandler(VotacaoNaoConsolidadaSessaoAbertaException.class)
+    public ResponseEntity<ErroResponseDto> handleVotacaoNaoConsolidadaSessaoAberta(VotacaoNaoConsolidadaSessaoAbertaException e, HttpServletRequest request) {
+        var erroResponse = buildErro(HttpStatus.FORBIDDEN.value(), e.getMessage(), request.getRequestURI());
+        log.error(erroResponse.toString());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erroResponse);
+    }
+
     private ErroResponseDto buildErro(Integer httpStatus, String mensagem, String path) {
         return ErroResponseDto.builder()
                 .timestamp(LocalDateTime.now())
