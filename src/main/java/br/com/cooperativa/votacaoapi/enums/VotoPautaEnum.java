@@ -21,9 +21,9 @@ public enum VotoPautaEnum {
 
     @JsonCreator
     public static VotoPautaEnum fromString(String value) {
-        for(VotoPautaEnum resultado : VotoPautaEnum.values()) {
-            if(resultado.descricao.equalsIgnoreCase(value)) {
-                return resultado;
+        for(VotoPautaEnum voto : VotoPautaEnum.values()) {
+            if(voto.descricao.equalsIgnoreCase(value)) {
+                return voto;
             }
         }
         throw new ValorVotoInvalidoException("Valor do voto [" + value + "] está incorreto. Valores permitidos: 'Sim' ou 'Não'");

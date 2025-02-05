@@ -1,5 +1,6 @@
 package br.com.cooperativa.votacaoapi.dto;
 
+import br.com.cooperativa.votacaoapi.enums.ResultadoPautaEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -13,6 +14,6 @@ public class PautaResponseDto {
     private String descricaoPauta;
     private LocalDateTime inicioSessao;
     private LocalDateTime fimSessao;
-    private String resultado;
+    private ResultadoPautaEnum resultado;
     private String mensagem;
 }

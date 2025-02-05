@@ -3,6 +3,7 @@ package br.com.cooperativa.votacaoapi.service;
 import br.com.cooperativa.votacaoapi.dto.PautaResponseDto;
 import br.com.cooperativa.votacaoapi.dto.VotoRequestDto;
 import br.com.cooperativa.votacaoapi.dto.VotoResponseDto;
+import br.com.cooperativa.votacaoapi.enums.ResultadoPautaEnum;
 import br.com.cooperativa.votacaoapi.enums.VotoPautaEnum;
 import br.com.cooperativa.votacaoapi.exception.PautaComSessaoEncerradaException;
 import br.com.cooperativa.votacaoapi.exception.PautaSemSessaoVotacaoAberta;
@@ -18,6 +19,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class VotoService {
+
+    private static final String MSG_VOTO_REGISTRADO = "Voto registrado com sucesso!";
 
     private final PautaService pautaService;
     private final AssociadoService associadoService;
@@ -36,7 +39,7 @@ public class VotoService {
 
         var voto = votoMapper.votoRequestDtoToVoto(idPauta, votoRequestDto);
         var votoRegistrado = votoRepository.save(voto);
-        return votoMapper.votoToVotoResponseDto(votoRegistrado, "Voto registrado com sucesso!");
+        return votoMapper.votoToVotoResponseDto(votoRegistrado, MSG_VOTO_REGISTRADO);
     }
 
     public PautaResponseDto consolidarVotacaoIdPauta(Long idPauta) {
@@ -52,16 +55,18 @@ public class VotoService {
         }
 
         var votos = votoRepository.findByPautaId(idPauta);
-        if(votos == null || votos.isEmpty()) {
-            return pautaService.atualizarResultado(idPauta, "NINGUEM_VOTOU");
-        }
-
         var votosDto = votoMapper.votosToVotoResponseDtos(votos);
         var resultado = contabilizarVotos(votosDto);
-        return pautaService.atualizarResultado(idPauta, resultado);
+        pautaService.atualizarResultadoPauta(idPauta, resultado);
+        pauta.setResultado(resultado);
+        return pauta;
     }
 
-    private String contabilizarVotos(List<VotoResponseDto> votos) {
+    private ResultadoPautaEnum contabilizarVotos(List<VotoResponseDto> votos) {
+        if(votos == null || votos.isEmpty()) {
+            return ResultadoPautaEnum.NINGUEM_VOTOU;
+        }
+
         int votosSim = 0;
         int votosNao = 0;
 
@@ -74,11 +79,11 @@ public class VotoService {
         }
 
         if(votosSim > votosNao) {
-            return "APROVADA";
+            return ResultadoPautaEnum.APROVADA;
         } else if(votosNao > votosSim) {
-            return "REPROVADA";
+            return ResultadoPautaEnum.REPROVADA;
         } else {
-            return "EMPATADA";
+            return ResultadoPautaEnum.EMPATADA;
         }
     }
 }

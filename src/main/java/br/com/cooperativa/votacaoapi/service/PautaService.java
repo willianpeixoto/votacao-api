@@ -3,6 +3,7 @@ package br.com.cooperativa.votacaoapi.service;
 import br.com.cooperativa.votacaoapi.dto.PautaRequestDto;
 import br.com.cooperativa.votacaoapi.dto.PautaResponseDto;
 import br.com.cooperativa.votacaoapi.dto.SessaoVotacaoRequestDto;
+import br.com.cooperativa.votacaoapi.enums.ResultadoPautaEnum;
 import br.com.cooperativa.votacaoapi.exception.PautaComSessaoAbertaException;
 import br.com.cooperativa.votacaoapi.exception.PautaNaoEncontradaException;
 import br.com.cooperativa.votacaoapi.mapper.PautaMapper;
@@ -58,10 +59,7 @@ public class PautaService {
         return pautaMapper.pautaToPautaResponseDto(pauta.get());
     }
 
-    public PautaResponseDto atualizarResultado(Long idPauta, String resultado) {
-        var pauta = pautaRepository.findById(idPauta);
-        pauta.get().setResultado(resultado);
-        var pautaAtualizada = pautaRepository.save(pauta.get());
-        return pautaMapper.pautaToPautaResponseDto(pautaAtualizada);
+    public int atualizarResultadoPauta(Long pautaId, ResultadoPautaEnum resultado) {
+        return pautaRepository.atualizarResultadoPauta(pautaId, resultado);
     }
 }
