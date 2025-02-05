@@ -39,8 +39,9 @@ public class PautaController implements PautaApi {
     }
 
     @Override
-    public VotoResponseDto registrarVoto(Long id, VotoRequestDto votoRequestDto) {
-        return votoService.registrarVoto(id, votoRequestDto);
+    public ResponseEntity<VotoResponseDto> registrarVoto(Long id, VotoRequestDto votoRequestDto) {
+        var votoRegistrado = votoService.registrarVoto(id, votoRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(votoRegistrado);
     }
 
     @Override
@@ -50,7 +51,8 @@ public class PautaController implements PautaApi {
     }
 
     @Override
-    public PautaResponseDto consolidarVotacaoIdPauta(Long id) {
-        return votoService.consolidarVotacaoIdPauta(id);
+    public ResponseEntity<PautaResponseDto> consolidarVotacaoIdPauta(Long id) {
+        var pauta = votoService.consolidarVotacaoIdPauta(id);
+        return ResponseEntity.ok(pauta);
     }
 }

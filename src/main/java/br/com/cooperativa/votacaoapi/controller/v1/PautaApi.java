@@ -36,7 +36,7 @@ public interface PautaApi {
 
     @Operation(summary = "Votar em uma pauta através do ID")
     @PostMapping("/{id}/votar")
-    VotoResponseDto registrarVoto(@PathVariable("id") Long id, @Valid @RequestBody VotoRequestDto votoRequestDto);
+    ResponseEntity<VotoResponseDto> registrarVoto(@PathVariable("id") Long id, @Valid @RequestBody VotoRequestDto votoRequestDto);
 
     @Operation(summary = "Buscar pauta através do ID")
     @GetMapping("/{id}")
@@ -44,5 +44,5 @@ public interface PautaApi {
 
     @Operation(summary = "Contabilizar votação e atualizar resultado na pauta através do ID")
     @PutMapping("/{id}/consolidar-votacao")
-    PautaResponseDto consolidarVotacaoIdPauta(@PathVariable("id") Long id);
+    ResponseEntity<PautaResponseDto> consolidarVotacaoIdPauta(@PathVariable("id") Long id);
 }

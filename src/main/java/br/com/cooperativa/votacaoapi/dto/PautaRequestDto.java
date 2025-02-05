@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class PautaRequestDto {
 
-    @NotBlank(message = "O campo 'descricaoPauta' precisa ser informado e não pode ser vazio ou nula.")
+    @NotBlank(message = "O campo 'descricaoPauta' precisa ser informado e não pode ser vazio ou nulo.")
     private String descricaoPauta;
 }

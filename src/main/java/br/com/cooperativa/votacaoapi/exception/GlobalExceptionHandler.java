@@ -49,10 +49,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PautaSemSessaoVotacaoAberta.class)
     public ResponseEntity<ErroResponseDto> handlePautaSemSessaoAberta(PautaSemSessaoVotacaoAberta e, HttpServletRequest request) {
-        var erroResponse = buildErro(HttpStatus.CONFLICT.value(), e.getMessage(), request.getRequestURI());
+        var erroResponse = buildErro(HttpStatus.FORBIDDEN.value(), e.getMessage(), request.getRequestURI());
         log.error(erroResponse.toString());
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(erroResponse);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erroResponse);
     }
 
     @ExceptionHandler(PautaComSessaoEncerradaException.class)
@@ -65,18 +65,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AssociadoJaVotouException.class)
     public ResponseEntity<ErroResponseDto> handleAssociadoJaVotou(AssociadoJaVotouException e, HttpServletRequest request) {
-        var erroResponse = buildErro(HttpStatus.FORBIDDEN.value(), e.getMessage(), request.getRequestURI());
+        var erroResponse = buildErro(HttpStatus.CONFLICT.value(), e.getMessage(), request.getRequestURI());
         log.error(erroResponse.toString());
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erroResponse);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(erroResponse);
     }
 
     @ExceptionHandler(ValorVotoInvalidoException.class)
     public ResponseEntity<ErroResponseDto> handleValorVotoInvalido(ValorVotoInvalidoException e, HttpServletRequest request) {
-        var erroResponse = buildErro(HttpStatus.BAD_REQUEST.value(), e.getMessage(), request.getRequestURI());
+        var erroResponse = buildErro(HttpStatus.UNPROCESSABLE_ENTITY.value(), e.getMessage(), request.getRequestURI());
         log.error(erroResponse.toString());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroResponse);
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(erroResponse);
     }
 
     @ExceptionHandler(VotacaoNaoConsolidadaSessaoAbertaException.class)
@@ -92,10 +92,10 @@ public class GlobalExceptionHandler {
         var mensagem = e.getBindingResult().getFieldErrors().stream()
                 .map(error -> error.getDefaultMessage())
                 .collect(Collectors.joining(" "));
-        var erroResponse = buildErro(HttpStatus.BAD_REQUEST.value(), mensagem, request.getRequestURI());
+        var erroResponse = buildErro(HttpStatus.UNPROCESSABLE_ENTITY.value(), mensagem, request.getRequestURI());
         log.error(erroResponse.toString());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroResponse);
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(erroResponse);
     }
 
     private ErroResponseDto buildErro(Integer httpStatus, String mensagem, String path) {
