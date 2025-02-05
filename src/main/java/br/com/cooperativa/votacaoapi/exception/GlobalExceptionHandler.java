@@ -6,10 +6,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Hidden
@@ -83,6 +85,17 @@ public class GlobalExceptionHandler {
         log.error(erroResponse.toString());
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erroResponse);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErroResponseDto> handleArgumentosInvalidos(MethodArgumentNotValidException e, HttpServletRequest request) {
+        var mensagem = e.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getDefaultMessage())
+                .collect(Collectors.joining(" "));
+        var erroResponse = buildErro(HttpStatus.BAD_REQUEST.value(), mensagem, request.getRequestURI());
+        log.error(erroResponse.toString());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroResponse);
     }
 
     private ErroResponseDto buildErro(Integer httpStatus, String mensagem, String path) {

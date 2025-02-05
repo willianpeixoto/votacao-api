@@ -5,6 +5,7 @@ import br.com.cooperativa.votacaoapi.dto.PautaRequestDto;
 import br.com.cooperativa.votacaoapi.dto.SessaoVotacaoRequestDto;
 import br.com.cooperativa.votacaoapi.dto.VotoResponseDto;
 import br.com.cooperativa.votacaoapi.dto.VotoRequestDto;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ public interface PautaApi {
 
     @Operation(summary = "Cadastrar uma nova pauta")
     @PostMapping
-    ResponseEntity<PautaResponseDto> cadastrarPauta(@RequestBody PautaRequestDto pauta);
+    ResponseEntity<PautaResponseDto> cadastrarPauta(@Valid @RequestBody PautaRequestDto pauta);
 
     @Operation(summary = "Listar todas as pautas")
     @GetMapping
@@ -35,7 +36,7 @@ public interface PautaApi {
 
     @Operation(summary = "Votar em uma pauta através do ID")
     @PostMapping("/{id}/votar")
-    VotoResponseDto registrarVoto(@PathVariable("id") Long id, @RequestBody VotoRequestDto votoRequestDto);
+    VotoResponseDto registrarVoto(@PathVariable("id") Long id, @Valid @RequestBody VotoRequestDto votoRequestDto);
 
     @Operation(summary = "Buscar pauta através do ID")
     @GetMapping("/{id}")
