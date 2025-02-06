@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final String MSG_ERRO_DESCONHECIDO = "Ocorreu um erro desconhecido";
+    private static final String MSG_ERRO_DESCONHECIDO = "Ocorreu um erro desconhecido.";
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErroResponseDto> handleException(RuntimeException e, HttpServletRequest request) {
