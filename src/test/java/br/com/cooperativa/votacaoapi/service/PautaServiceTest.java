@@ -120,11 +120,11 @@ public class PautaServiceTest {
         ArgumentCaptor<Pauta> captor = ArgumentCaptor.forClass(Pauta.class);
         verify(pautaRepository).save(captor.capture());
 
-        Pauta savedPauta = captor.getValue();
-        assertNotNull(savedPauta);
+        Pauta pautaGravadaComHorarioDaSessao = captor.getValue();
+        assertNotNull(pautaGravadaComHorarioDaSessao);
 
-        LocalDateTime fimSessao = savedPauta.getInicioSessao().plusMinutes(DURACAO_SESSAO_DEFAULT);
-        assertEquals(fimSessao, savedPauta.getFimSessao());
+        LocalDateTime fimSessao = pautaGravadaComHorarioDaSessao.getInicioSessao().plusMinutes(DURACAO_SESSAO_DEFAULT);
+        assertEquals(fimSessao, pautaGravadaComHorarioDaSessao.getFimSessao());
     }
 
     @Test
@@ -140,11 +140,11 @@ public class PautaServiceTest {
         ArgumentCaptor<Pauta> captor = ArgumentCaptor.forClass(Pauta.class);
         verify(pautaRepository).save(captor.capture());
 
-        Pauta savedPauta = captor.getValue();
-        assertNotNull(savedPauta);
+        Pauta pautaGravadaComHorarioDaSessao = captor.getValue();
+        assertNotNull(pautaGravadaComHorarioDaSessao);
 
-        LocalDateTime fimSessao = savedPauta.getInicioSessao().plusMinutes(DURACAO_SESSAO_DEFAULT);
-        assertEquals(fimSessao, savedPauta.getFimSessao());
+        LocalDateTime fimSessao = pautaGravadaComHorarioDaSessao.getInicioSessao().plusMinutes(DURACAO_SESSAO_DEFAULT);
+        assertEquals(fimSessao, pautaGravadaComHorarioDaSessao.getFimSessao());
     }
 
     @Test
