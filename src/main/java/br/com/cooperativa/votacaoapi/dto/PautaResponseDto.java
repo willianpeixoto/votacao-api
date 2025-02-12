@@ -2,11 +2,13 @@ package br.com.cooperativa.votacaoapi.dto;
 
 import br.com.cooperativa.votacaoapi.enums.ResultadoPautaEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PautaResponseDto {
 

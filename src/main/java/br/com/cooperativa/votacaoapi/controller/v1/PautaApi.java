@@ -360,6 +360,80 @@ public interface PautaApi {
     ResponseEntity<PautaResponseDto> buscarPautaPorIdPauta(@PathVariable("id") Long id);
 
     @Operation(summary = "Contabilizar votação e atualizar resultado na pauta através do ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Retorna pauta com o resultado da votação",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = PautaResponseDto.class),
+                            examples = @ExampleObject(value = """
+                                {
+                                    "idPauta": 1,
+                                    "descricaoPauta": "Assunto que será posto em votação",
+                                    "inicioSessao": "2025-02-06T19:59:44.964Z",
+                                    "fimSessao": "2025-02-06T19:59:44.964Z",
+                                    "resultado": "APROVADA"
+                                }
+                            """)
+                    )),
+            @ApiResponse(responseCode = "404",
+                    description = "Pauta não encontrada",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErroResponseDto.class),
+                            examples = @ExampleObject(value = """
+                                {
+                                    "timestamp": "2025-02-06T17:50:53.49654855",
+                                    "httpStatus": 404,
+                                    "mensagem": "Pauta [ID: 1] não encontrada.",
+                                    "path": "/v1/pautas/1/consolidar-votacao"
+                                }
+                            """)
+                    )),
+            @ApiResponse(responseCode = "403",
+                    description = "Não existe sessão de votação para esta pauta",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErroResponseDto.class),
+                            examples = @ExampleObject(value = """
+                                {
+                                    "timestamp": "2025-02-06T17:50:53.49654855",
+                                    "httpStatus": 403,
+                                    "mensagem": "A sessão de votação desta pauta [ID: 1] ainda não foi aberta.",
+                                    "path": "/v1/pautas/1/consolidar-votacao"
+                                }
+                            """)
+                    )),
+            @ApiResponse(responseCode = "403",
+                    description = "Tempo da sessão de votação ainda não encerrou",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErroResponseDto.class),
+                            examples = @ExampleObject(value = """
+                                {
+                                    "timestamp": "2025-02-06T17:50:53.49654855",
+                                    "httpStatus": 403,
+                                    "mensagem": "A votação não pode ser consolidada porque a sessão de votação desta pauta [ID: 1] ainda não foi encerrada.",
+                                    "path": "/v1/pautas/1/consolidar-votacao"
+                                }
+                            """)
+                    )),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Erro interno do servidor",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErroResponseDto.class),
+                            examples = @ExampleObject(value = """
+                                    {
+                                        "timestamp": "2025-02-06T17:50:53.49654855",
+                                        "httpStatus": 500,
+                                        "mensagem": "Ocorreu um erro desconhecido.",
+                                        "path": "/v1/pautas/1/consolidar-votacao"
+                                    }
+                                """)
+                    ))
+    })
     @PutMapping("/{id}/consolidar-votacao")
     ResponseEntity<PautaResponseDto> consolidarVotacaoIdPauta(@PathVariable("id") Long id);
 }
