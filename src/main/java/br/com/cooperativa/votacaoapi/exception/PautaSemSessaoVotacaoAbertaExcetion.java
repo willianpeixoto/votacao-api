@@ -1,8 +1,8 @@
 package br.com.cooperativa.votacaoapi.exception;
 
-public class PautaSemSessaoVotacaoAberta extends RuntimeException {
+public class PautaSemSessaoVotacaoAbertaExcetion extends RuntimeException {
 
-    public PautaSemSessaoVotacaoAberta(Long id) {
+    public PautaSemSessaoVotacaoAbertaExcetion(Long id) {
         super("A sessão de votação desta pauta [ID: " + id + "] ainda não foi aberta.");
     }
 }

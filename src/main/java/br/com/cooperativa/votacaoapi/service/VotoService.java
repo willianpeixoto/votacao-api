@@ -6,7 +6,7 @@ import br.com.cooperativa.votacaoapi.dto.VotoResponseDto;
 import br.com.cooperativa.votacaoapi.enums.ResultadoPautaEnum;
 import br.com.cooperativa.votacaoapi.enums.VotoPautaEnum;
 import br.com.cooperativa.votacaoapi.exception.PautaComSessaoEncerradaException;
-import br.com.cooperativa.votacaoapi.exception.PautaSemSessaoVotacaoAberta;
+import br.com.cooperativa.votacaoapi.exception.PautaSemSessaoVotacaoAbertaExcetion;
 import br.com.cooperativa.votacaoapi.exception.VotacaoNaoConsolidadaSessaoAbertaException;
 import br.com.cooperativa.votacaoapi.mapper.VotoMapper;
 import br.com.cooperativa.votacaoapi.repository.VotoRepository;
@@ -30,7 +30,7 @@ public class VotoService {
     public VotoResponseDto registrarVoto(Long idPauta, VotoRequestDto votoRequestDto) {
         var pauta = pautaService.buscarPautaPorIdPauta(idPauta);
         if(pauta.getInicioSessao() == null) {
-            throw new PautaSemSessaoVotacaoAberta(idPauta);
+            throw new PautaSemSessaoVotacaoAbertaExcetion(idPauta);
         }
         if(pauta.getFimSessao().isBefore(LocalDateTime.now())) {
             throw new PautaComSessaoEncerradaException(idPauta);
@@ -48,7 +48,7 @@ public class VotoService {
             return pauta;
         }
         if(pauta.getInicioSessao() == null) {
-            throw new PautaSemSessaoVotacaoAberta(idPauta);
+            throw new PautaSemSessaoVotacaoAbertaExcetion(idPauta);
         }
         if(pauta.getFimSessao().isAfter(LocalDateTime.now())) {
             throw new VotacaoNaoConsolidadaSessaoAbertaException(idPauta);

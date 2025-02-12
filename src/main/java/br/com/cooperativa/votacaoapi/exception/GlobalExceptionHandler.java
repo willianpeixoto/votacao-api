@@ -47,8 +47,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(erroResponse);
     }
 
-    @ExceptionHandler(PautaSemSessaoVotacaoAberta.class)
-    public ResponseEntity<ErroResponseDto> handlePautaSemSessaoAberta(PautaSemSessaoVotacaoAberta e, HttpServletRequest request) {
+    @ExceptionHandler(PautaSemSessaoVotacaoAbertaExcetion.class)
+    public ResponseEntity<ErroResponseDto> handlePautaSemSessaoAberta(PautaSemSessaoVotacaoAbertaExcetion e, HttpServletRequest request) {
         var erroResponse = buildErro(HttpStatus.FORBIDDEN.value(), e.getMessage(), request.getRequestURI());
         log.error(erroResponse.toString());
 
