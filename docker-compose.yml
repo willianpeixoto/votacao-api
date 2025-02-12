@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-votacao
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: votacao
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "8084:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - votacao-net
+
+  votacao-api:
+    build:
+      context: .  # Caminho para o Dockerfile da API
+    container_name: votacao-api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/votacao
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    ports:
+      - "8080:8080"  # Porta exposta para a API
+    depends_on:
+      - mysql
+    networks:
+      - votacao-net
+
+volumes:
+  mysql-data:
+
+networks:
+  votacao-net:  # Define uma rede Docker comum entre os containers
