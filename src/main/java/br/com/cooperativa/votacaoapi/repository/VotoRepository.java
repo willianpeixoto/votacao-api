@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface VotoRepository extends JpaRepository<Voto, Long> {
 
-    List<Voto> findByPautaId(Long pautaId);
+    List<Voto> findAllByPautaId(Long pautaId);
     Optional<Voto> findByPautaIdAndAssociadoId(Long pautaId, Long associadoId);
 }

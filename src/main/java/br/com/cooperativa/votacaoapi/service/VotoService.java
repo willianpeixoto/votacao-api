@@ -54,7 +54,7 @@ public class VotoService {
             throw new VotacaoNaoConsolidadaSessaoAbertaException(idPauta);
         }
 
-        var votos = votoRepository.findByPautaId(idPauta);
+        var votos = votoRepository.findAllByPautaId(idPauta);
         var votosDto = votoMapper.votosToVotoResponseDtos(votos);
         var resultado = contabilizarVotos(votosDto);
         pautaService.atualizarResultadoPauta(idPauta, resultado);
