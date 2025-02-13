@@ -71,6 +71,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(erroResponse);
     }
 
+    @ExceptionHandler(AssociadoNaoTemPermissaoParaVotarException.class)
+    public ResponseEntity<ErroResponseDto> handleAssociadoNaoTemPermissaoParaVotar(AssociadoNaoTemPermissaoParaVotarException e, HttpServletRequest request) {
+        var erroResponse = buildErro(HttpStatus.FORBIDDEN.value(), e.getMessage(), request.getRequestURI());
+        log.error(erroResponse.toString());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erroResponse);
+    }
+
     @ExceptionHandler(ValorVotoInvalidoException.class)
     public ResponseEntity<ErroResponseDto> handleValorVotoInvalido(ValorVotoInvalidoException e, HttpServletRequest request) {
         var erroResponse = buildErro(HttpStatus.UNPROCESSABLE_ENTITY.value(), e.getMessage(), request.getRequestURI());

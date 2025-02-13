@@ -12,8 +12,8 @@ import java.util.List;
 public interface VotoMapper {
 
     @Mapping(target = "pauta.id", source = "idPauta")
-    @Mapping(target = "associadoId", source = "votoRequestDto.idAssociado")
-    Voto votoRequestDtoToVoto(Long idPauta, VotoRequestDto votoRequestDto);
+    @Mapping(target = "associadoId", source = "idAssociado")
+    Voto votoRequestDtoToVoto(Long idPauta, Long idAssociado, VotoRequestDto votoRequestDto);
 
     @Mapping(target = "idPauta", source = "voto.pauta.id")
     @Mapping(target = "idVoto", source = "voto.id")

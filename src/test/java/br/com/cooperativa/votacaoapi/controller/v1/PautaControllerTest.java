@@ -49,7 +49,7 @@ class PautaControllerTest {
         pautaResponse = PautaResponseDto.builder().idPauta(ID_1).descricaoPauta("Pauta teste").build();
         pautaRequest = PautaRequestDto.builder().descricaoPauta("Pauta Teste").build();
         sessaoRequest = SessaoVotacaoRequestDto.builder().build();
-        votoRequest = VotoRequestDto.builder().idAssociado(ID_1).voto(VotoPautaEnum.SIM).build();
+        votoRequest = VotoRequestDto.builder().voto(VotoPautaEnum.SIM).build();
     }
 
     @Test

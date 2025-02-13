@@ -64,7 +64,7 @@ public class PautaControllerIntegrationTest {
     }
 
     void deveRegistrarVoto() {
-        VotoRequestDto votoRequestDto = VotoRequestDto.builder().idAssociado(1L).voto(VotoPautaEnum.SIM).build();
+        VotoRequestDto votoRequestDto = VotoRequestDto.builder().cpf(12345678901L).voto(VotoPautaEnum.SIM).build();
         HttpEntity<VotoRequestDto> httpEntity = new HttpEntity<>(votoRequestDto);
         ResponseEntity<VotoResponseDto> response = restTemplate.postForEntity(URI_PAUTAS + URI_ID + "/votar", httpEntity, VotoResponseDto.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);

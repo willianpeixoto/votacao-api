@@ -35,9 +35,9 @@ public class VotoService {
         if(pauta.getFimSessao().isBefore(LocalDateTime.now())) {
             throw new PautaComSessaoEncerradaException(idPauta);
         }
-        associadoService.validaAssociado(idPauta, votoRequestDto.getIdAssociado());
+        Long idAssociado = associadoService.validaAssociado(idPauta, votoRequestDto.getCpf());
 
-        var voto = votoMapper.votoRequestDtoToVoto(idPauta, votoRequestDto);
+        var voto = votoMapper.votoRequestDtoToVoto(idPauta, idAssociado, votoRequestDto);
         var votoRegistrado = votoRepository.save(voto);
         return votoMapper.votoToVotoResponseDto(votoRegistrado, MSG_VOTO_REGISTRADO);
     }

@@ -1,0 +1,1 @@
+INSERT INTO associado (id, cpf, status_voto) VALUES (1, 12345678901, 'ABLE_TO_VOTE');

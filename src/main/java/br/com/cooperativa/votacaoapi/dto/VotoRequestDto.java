@@ -9,8 +9,8 @@ import lombok.Data;
 @Builder
 public class VotoRequestDto {
 
-    @NotNull(message = "O campo 'idAssociado' precisa ser informado.")
-    private Long idAssociado;
+    @NotNull(message = "O campo 'cpf' precisa ser informado.")
+    private Long cpf;
 
     @NotNull(message = "O campo 'voto' precisa ser informado com os valores 'Sim' ou 'Não'.")
     private VotoPautaEnum voto;
