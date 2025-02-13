@@ -249,7 +249,7 @@ public interface PautaApi {
                             """)
                     )),
             @ApiResponse(responseCode = "403",
-                    description = "Não é possível votar pois a sessão de votação não está aberta",
+                    description = "Associado não pode votar nesta pauta",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErroResponseDto.class),
@@ -258,20 +258,6 @@ public interface PautaApi {
                                     "timestamp": "2025-02-06T17:50:53.49654855",
                                     "httpStatus": 403,
                                     "mensagem": "A sessão de votação desta pauta [ID: 1] ainda não foi aberta.",
-                                    "path": "/v1/pautas/1/votar"
-                                }
-                            """)
-                    )),
-            @ApiResponse(responseCode = "403",
-                    description = "Não é possível votar pois a sessão de votação já foi encerrada",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErroResponseDto.class),
-                            examples = @ExampleObject(value = """
-                                {
-                                    "timestamp": "2025-02-06T17:50:53.49654855",
-                                    "httpStatus": 403,
-                                    "mensagem": "A sessão de votação desta pauta [ID: 1] foi encerrada.",
                                     "path": "/v1/pautas/1/votar"
                                 }
                             """)
@@ -391,21 +377,7 @@ public interface PautaApi {
                             """)
                     )),
             @ApiResponse(responseCode = "403",
-                    description = "Não existe sessão de votação para esta pauta",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErroResponseDto.class),
-                            examples = @ExampleObject(value = """
-                                {
-                                    "timestamp": "2025-02-06T17:50:53.49654855",
-                                    "httpStatus": 403,
-                                    "mensagem": "A sessão de votação desta pauta [ID: 1] ainda não foi aberta.",
-                                    "path": "/v1/pautas/1/consolidar-votacao"
-                                }
-                            """)
-                    )),
-            @ApiResponse(responseCode = "403",
-                    description = "Tempo da sessão de votação ainda não encerrou",
+                    description = "A consolidação desta pauta ainda não pode ser feita",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErroResponseDto.class),
