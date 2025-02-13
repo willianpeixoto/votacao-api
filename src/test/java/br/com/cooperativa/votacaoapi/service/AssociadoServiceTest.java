@@ -41,8 +41,10 @@ public class AssociadoServiceTest {
     @Test
     void deveRetornarIdAssociadoQuandoAssociadoValido() {
         UserInfoResponseDto userComPermissao = UserInfoResponseDto.builder().status("ABLE_TO_VOTE").build();
+
         when(userInfoService.validaCpf(CPF)).thenReturn(ResponseEntity.ok(userComPermissao));
         when(associadoRepository.findByCpf(CPF)).thenReturn(getAssociado());
+
         var idAssociado = associadoService.validaAssociado(ID_1, CPF);
 
         assertNotNull(idAssociado);
@@ -51,21 +53,25 @@ public class AssociadoServiceTest {
     @Test
     void deveLancarAssociadoNaoTemPermissaoParaVotarExceptionQuandoAssociadoNaoTemPermissaoParaVotarEAPIExternaRetornaStatusOk() {
         when(userInfoService.validaCpf(CPF)).thenReturn(ResponseEntity.ok(UserInfoResponseDto.builder().build()));
+
         assertThrows(AssociadoNaoTemPermissaoParaVotarException.class, () -> associadoService.validaAssociado(ID_1, CPF));
     }
 
     @Test
     void deveLancarAssociadoNaoTemPermissaoParaVotarExceptionQuandoAssociadoNaoTemPermissaoParaVotarEAPIExternaRetornaStatusDiferenteDeOk() {
         when(userInfoService.validaCpf(CPF)).thenReturn(ResponseEntity.status(404).body(UserInfoResponseDto.builder().build()));
+
         assertThrows(AssociadoNaoTemPermissaoParaVotarException.class, () -> associadoService.validaAssociado(ID_1, CPF));
     }
 
     @Test
     void deveLancarAssociadoJaVotouExceptionQuandoAssociadoJaTiverVotadoNaPauta() {
         UserInfoResponseDto userComPermissao = UserInfoResponseDto.builder().status("ABLE_TO_VOTE").build();
+
         when(userInfoService.validaCpf(CPF)).thenReturn(ResponseEntity.ok(userComPermissao));
         when(associadoRepository.findByCpf(CPF)).thenReturn(getAssociado());
         when(votoRepository.findByPautaIdAndAssociadoId(ID_1, ID_1)).thenReturn(getVoto());
+
         assertThrows(AssociadoJaVotouException.class, () -> associadoService.validaAssociado(ID_1, CPF));
     }
 
