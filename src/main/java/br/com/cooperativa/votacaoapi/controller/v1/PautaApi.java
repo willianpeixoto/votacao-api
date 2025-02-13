@@ -277,6 +277,21 @@ public interface PautaApi {
                             """)
                     )),
             @ApiResponse(
+                    responseCode = "422",
+                    description = "Um ou mais atributos com valor inválido na requisição",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErroResponseDto.class),
+                            examples = @ExampleObject(value = """
+                                {
+                                    "timestamp": "2025-02-06T17:50:53.49654855",
+                                    "httpStatus": 422,
+                                    "mensagem": "O campo 'voto' precisa ser informado com os valores 'Sim' ou 'Não'.",
+                                    "path": "/v1/pautas"
+                                }
+                            """)
+                    )),
+            @ApiResponse(
                     responseCode = "500",
                     description = "Erro interno do servidor",
                     content = @Content(
