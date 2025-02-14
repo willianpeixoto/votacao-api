@@ -8,6 +8,7 @@ import br.com.cooperativa.votacaoapi.exception.PautaComSessaoAbertaException;
 import br.com.cooperativa.votacaoapi.exception.PautaNaoEncontradaException;
 import br.com.cooperativa.votacaoapi.mapper.PautaMapperImpl;
 import br.com.cooperativa.votacaoapi.repository.PautaRepository;
+import br.com.cooperativa.votacaoapi.service.pubsub.PautaPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,9 +40,12 @@ public class PautaServiceTest {
 
     private PautaService pautaService;
 
+    @Mock
+    private PautaPublisher pautaPublisher;
+
     @BeforeEach
     void setUp() {
-        pautaService = new PautaService(pautaRepository, new PautaMapperImpl());
+        pautaService = new PautaService(pautaRepository, new PautaMapperImpl(), pautaPublisher);
     }
 
     @Test

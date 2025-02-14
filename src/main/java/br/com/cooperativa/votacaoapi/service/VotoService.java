@@ -59,6 +59,7 @@ public class VotoService {
         var resultado = contabilizarVotos(votosDto);
         pautaService.atualizarResultadoPauta(idPauta, resultado);
         pauta.setResultado(resultado);
+        pautaService.publicarResultado(pauta);
         return pauta;
     }
 

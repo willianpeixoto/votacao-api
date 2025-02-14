@@ -8,6 +8,7 @@ import br.com.cooperativa.votacaoapi.exception.PautaComSessaoAbertaException;
 import br.com.cooperativa.votacaoapi.exception.PautaNaoEncontradaException;
 import br.com.cooperativa.votacaoapi.mapper.PautaMapper;
 import br.com.cooperativa.votacaoapi.repository.PautaRepository;
+import br.com.cooperativa.votacaoapi.service.pubsub.PautaPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class PautaService {
 
     private final PautaRepository pautaRepository;
     private final PautaMapper pautaMapper;
+    private final PautaPublisher pautaPublisher;
 
     public PautaResponseDto cadastrarPauta(PautaRequestDto pautaRequestDto) {
         var pauta = pautaMapper.pautaRequestDtoToPauta(pautaRequestDto);
@@ -61,5 +63,9 @@ public class PautaService {
 
     public int atualizarResultadoPauta(Long pautaId, ResultadoPautaEnum resultado) {
         return pautaRepository.atualizarResultadoPauta(pautaId, resultado);
+    }
+
+    public void publicarResultado(PautaResponseDto pauta) {
+        pautaPublisher.publicaMensagem("[" + pauta.getResultado() + "] Pauta: " + pauta.getDescricaoPauta());
     }
 }

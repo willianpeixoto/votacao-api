@@ -7,6 +7,8 @@ import br.com.cooperativa.votacaoapi.dto.VotoResponseDto;
 import br.com.cooperativa.votacaoapi.dto.VotoRequestDto;
 import br.com.cooperativa.votacaoapi.enums.ResultadoPautaEnum;
 import br.com.cooperativa.votacaoapi.enums.VotoPautaEnum;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +19,34 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.testcontainers.containers.RabbitMQContainer;
+import org.testcontainers.utility.DockerImageName;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles("test-integration")
 public class PautaControllerIntegrationTest {
+
+    static RabbitMQContainer rabbitMQContainer = new RabbitMQContainer(
+            DockerImageName.parse("rabbitmq:3-management"))
+            .withExposedPorts(5672, 15672)
+            .withEnv("RABBITMQ_DEFAULT_USER", "guest")
+            .withEnv("RABBITMQ_DEFAULT_PASS", "guest");
+
+    @BeforeAll
+    static void inicializaRabbitMQ() {
+        rabbitMQContainer.start();
+        System.setProperty("SPRING_RABBITMQ_HOST_TEST", rabbitMQContainer.getHost());
+        System.setProperty("SPRING_RABBITMQ_PORT_TEST", rabbitMQContainer.getMappedPort(5672).toString());
+        System.setProperty("SPRING_RABBITMQ_USERNAME_TEST", "guest");
+        System.setProperty("SPRING_RABBITMQ_PASSWORD_TEST", "guest");
+    }
+
+    @AfterAll
+    static void encerraRabbitMQ() {
+        rabbitMQContainer.stop();
+    }
 
     private static final String URI_PAUTAS = "/v1/pautas";
     private static final String URI_ID = "/1";
