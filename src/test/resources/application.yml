@@ -11,3 +11,14 @@ spring:
   h2:
     console:
       enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    listener:
+      simple:
+        auto-startup: false
+      direct:
+        auto-startup: false
+      stream:
+        auto-startup: false
+      default-auto-startup: false
