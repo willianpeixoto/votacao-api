@@ -74,6 +74,8 @@ O foco dessa avaliação é a comunicação entre o backend e o aplicativo mobil
 - Iremos executar a aplicação para testá-la, cuide com qualquer dependência externa e deixe claro caso haja instruções especiais para execução do mesmo
 - Teste bem sua aplicação, evite bugs
 
+# Informações sobre a utilização da API desenvolvida
+
 ### Configurações utilizadas durante o desenvolvimento
 - Java Developer Kit (JDK) versão 17.0.12
 - Apache Maven versão 3.9.9
