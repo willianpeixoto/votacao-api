@@ -13,6 +13,6 @@ public class PautaPublisher {
 
     public void publicaMensagem(String message) {
         rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_NAME, "", message);
-        System.out.println(message);
+        System.out.println("Mensagem enviada: " + message);
     }
 }
