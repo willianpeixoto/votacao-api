@@ -11,8 +11,14 @@ services:
       - "8084:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - votacao-net
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      retries: 5
+      timeout: 5s
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -25,6 +31,11 @@ services:
       - "15672:15672" # Porta para acessar o painel de administração
     networks:
       - votacao-net
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
 
   votacao-api:
     build:
@@ -41,8 +52,10 @@ services:
     ports:
       - "8080:8080"  # Porta exposta para a API
     depends_on:
-      - mysql
-      - rabbitmq
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     networks:
       - votacao-net
 
