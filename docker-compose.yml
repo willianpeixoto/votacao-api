@@ -11,7 +11,7 @@ services:
       - "8084:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql #executa apenas na primeira vez que o volume e criado
     networks:
       - votacao-net
     healthcheck:
