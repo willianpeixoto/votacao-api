@@ -14,7 +14,7 @@ public class Associado {
 
     @NotNull
     @Column( nullable = false )
-    private Long cpf;
+    private String cpf;
 
     private String statusVoto;
 }

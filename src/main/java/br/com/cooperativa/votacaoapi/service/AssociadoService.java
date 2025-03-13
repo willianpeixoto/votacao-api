@@ -20,7 +20,7 @@ public class AssociadoService {
     private final AssociadoRepository associadoRepository;
     private final UserInfoService userInfoService;
 
-    public Long validaAssociado(Long idPauta, Long cpf) {
+    public Long validaAssociado(Long idPauta, String cpf) {
         Optional<Associado> associado = associadoRepository.findByCpf(cpf);
         if(!associadoTemPermissaoParaVotar(associado, cpf)) {
             throw new AssociadoNaoTemPermissaoParaVotarException(cpf);
@@ -36,14 +36,14 @@ public class AssociadoService {
         return voto.isPresent();
     }
 
-    private boolean associadoTemPermissaoParaVotar(Optional<Associado> associado, Long cpf) {
+    private boolean associadoTemPermissaoParaVotar(Optional<Associado> associado, String cpf) {
         if(associado.isPresent() && "ABLE_TO_VOTE".equals(associado.get().getStatusVoto())) {
             return true;
         }
         return consultaApiExterna(cpf);
     }
 
-    private boolean consultaApiExterna(Long cpf) {
+    private boolean consultaApiExterna(String cpf) {
         ResponseEntity<UserInfoResponseDto> userInfoResponseDto = userInfoService.validaCpf(cpf);
         if(userInfoResponseDto.getStatusCode().value() == 200) {
             Associado novoAssociado = new Associado();

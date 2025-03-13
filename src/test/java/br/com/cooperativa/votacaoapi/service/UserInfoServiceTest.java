@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class UserInfoServiceTest {
 
-    private static final Long CPF = 12345678978L;
+    private static final String CPF = "12345678978";
 
     @Mock
     private RestTemplate restTemplate;

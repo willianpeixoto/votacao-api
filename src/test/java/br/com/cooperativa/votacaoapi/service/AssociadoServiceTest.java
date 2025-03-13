@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 public class AssociadoServiceTest {
 
     private static final Long ID_1 = 1L;
-    private static final Long CPF = 12345678978L;
+    private static final String CPF = "12345678978";
 
     @Mock
     private VotoRepository votoRepository;

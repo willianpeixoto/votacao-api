@@ -20,7 +20,7 @@ public class UserInfoService {
 
     private final RestTemplate restTemplate;
 
-    public ResponseEntity<UserInfoResponseDto> validaCpf(Long cpf) {
+    public ResponseEntity<UserInfoResponseDto> validaCpf(String cpf) {
         URI uri = UriComponentsBuilder.fromHttpUrl(URL).buildAndExpand(cpf).toUri();
 
         try {
